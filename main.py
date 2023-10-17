@@ -9,7 +9,7 @@ DT = os.environ['DT']
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix=commands.when_mentioned_or(
-    '7/'), case_insensitive=True, intents=intents)
+    '!'), case_insensitive=True, intents=intents)
 
 
 @bot.event
