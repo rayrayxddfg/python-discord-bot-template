@@ -1,0 +1,5 @@
+discord.py
+bardapi
+keep_alive
+psutil
+flask
