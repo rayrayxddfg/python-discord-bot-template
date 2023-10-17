@@ -32,4 +32,4 @@ if TOKEN is not None:
     keep_alive()
     bot.run(TOKEN)
 else:
-    print("DISCORD_TOKEN environment variable not set. Please set it with your bot token.")
+    print("DT environment variable not set. Please set it with your bot token.")
