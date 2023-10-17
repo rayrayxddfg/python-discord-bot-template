@@ -1,3 +1,4 @@
 discord.py
 keep_alive
 flask
+dotenv
