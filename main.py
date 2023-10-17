@@ -1,35 +1,41 @@
-import os
 import discord
+import os
+import time
 from discord.ext import commands
 from keep_alive import keep_alive
 
-intents = discord.Intents.default()  # Create a default intent
-intents.typing = False
-intents.presences = False
+# Your Discord token
+DT = os.environ['DT']
 
-# Create a bot instance with specified intents
-bot = commands.Bot(command_prefix='!', intents=intents)
+intents = discord.Intents.all()
+bot = commands.Bot(command_prefix=commands.when_mentioned_or(
+    '7/'), case_insensitive=True, intents=intents)
 
 
 @bot.event
-async def on_ready():
-    print(f'{bot.user} has connected to Discord!')
+async def on_message(message):
+    # Check if the message is from a server (guild)
+    if message.guild:
+        await bot.process_commands(message)
 
 
-@bot.command(name='ping', help='Check the bot\'s ping time.')
+@bot.command()
 async def ping(ctx):
-    latency = bot.latency  # Get the bot's latency
+    # Start a timer
+    start_time = time.time()
 
-    # Calculate the ping time in milliseconds
-    ping_time = round(latency * 1000)
+    # Send a message to the channel
+    await ctx.send("Ping...")
 
-    await ctx.send(f'Pong! Bot latency is {ping_time}ms')
+    # End the timer
+    end_time = time.time()
 
-# Use an environment variable for your bot token
-TOKEN = os.environ.get('DT')
+    # Calculate the ping time
+    ping_time = end_time - start_time
 
-if TOKEN is not None:
-    keep_alive()
-    bot.run(TOKEN)
-else:
-    print("DT environment variable not set. Please set it with your bot token.")
+    # Send the ping time to the channel
+    await ctx.send(f"Pong! {ping_time * 1000:.0f}ms")
+
+
+keep_alive()
+bot.run(DT)
